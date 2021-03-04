@@ -58,7 +58,7 @@ const ChangeElement:React.FC<any> = (props) =>{
                 <Editor
                     inline={false}
                     initialValue={globalProps.txtvalue}
-                    onChange = {txtChange}
+                    onChange = {()=>txtChange}
                     value={globalProps.txtvalue}
                     init={{
                         height: '400px',

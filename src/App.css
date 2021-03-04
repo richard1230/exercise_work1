@@ -32,17 +32,17 @@
 
 .left {
     flex: 1;
-    background: red;
+    /*background: red;*/
 }
 
 .center {
     flex: 2;
-    background: yellow;
+    /*background: yellow;*/
 }
 
 .right {
     flex: 1;
-    background: blue;
+    /*background: blue;*/
 }
 
 
