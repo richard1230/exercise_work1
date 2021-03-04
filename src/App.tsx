@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {AppProvider} from "./Context";
+import {TopProvider} from "./Context";
 import EditPage from "./compoents/EditPage";
 import AddElement from "./compoents/AddElement";
 import ShowElement from "./compoents/ShowElement";
@@ -9,21 +9,34 @@ import ChangeElement from "./compoents/ChangeElement";
 
 function App() {
     return (
-       <AppProvider>
+       <TopProvider>
            <div className="App">
                {/*<div className="container-fluid">*/}
-                   <div className="left-center-right">
-                  <div className="left">
+               {/*    <div className="left-center-right">*/}
+               {/*   <div className="left">*/}
+               {/*    /!*<div className='row'>*!/*/}
+               {/*        /!*<div className='col-xs-2'>*!/*/}
+               {/*            <EditPage />*/}
+               {/*            /!*<hr/>*!/*/}
+               {/*            <AddElement/>*/}
+               {/*        /!*</div>*!/*/}
+               {/*    /!*</div>*!/*/}
+               {/*    </div>*/}
+                   <div className="wrapper">
+                       <div className="center">
+                           <ShowElement/>
+                       </div>
+                   </div>
+               <div className="left">
                    {/*<div className='row'>*/}
-                       {/*<div className='col-xs-2'>*/}
-                           <EditPage />
-                           {/*<hr/>*/}
-                           <AddElement/>
-                       {/*</div>*/}
+                   {/*<div className='col-xs-2'>*/}
+                   <EditPage />
+                   {/*<hr/>*/}
+                   <AddElement/>
                    {/*</div>*/}
-                      <div className="center">
-                          <ShowElement/>
-                      </div>
+                   {/*</div>*/}
+               </div>
+
                       <div className="right">
                           {/*<div className='col-xs-4 text-left'>*/}
                               <h3>元素操作区</h3>
@@ -32,12 +45,12 @@ function App() {
                           {/*</div>*/}
                       </div>
 
-               </div>
-             </div>
+               {/*</div>*/}
+             {/*</div>*/}
                {/*</div>*/}
            </div>
 
-       </AppProvider>
+       </TopProvider>
 
     );
 }

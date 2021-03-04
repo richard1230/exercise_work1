@@ -7,7 +7,7 @@ const ChangeElement: React.FC<any> = (props) => {
     const {state: globalProps, dispatch} = useContext(AppContext);
     const {_elementContent: elementContent} = globalProps;
 
-    //获取图像编辑框改动
+    //获取图片编辑框改动
     const picChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         const newSate = {
             picvalue: e.target.value

@@ -48,7 +48,7 @@ const AppContext = createContext<{ state: IGlobalProps; dispatch: React.Dispatch
     dispatch: () => null
 });
 
-const AppProvider: React.FC = ({ children }) => {
+const TopProvider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, globalProps);
 
     return (
@@ -59,5 +59,5 @@ const AppProvider: React.FC = ({ children }) => {
 }
 
 
-export { AppContext, AppProvider };
+export { AppContext, TopProvider };
 
