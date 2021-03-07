@@ -1,7 +1,7 @@
 import React,{FormEvent,useContext}  from 'react'
 import { AppContext } from '../Context';
 
-const DeleteElement:React.FC<any> = (props) =>{
+const DeleteElement:React.FC = (props) =>{
     const { state: globalProps, dispatch } = useContext(AppContext);
 
     //删除元素
@@ -26,7 +26,7 @@ const DeleteElement:React.FC<any> = (props) =>{
 
     return(
         <div style={{display: globalProps.isDeleteShow ? "block" : "none"}}  className="text-left">
-            <button onClick={deleteEl} className="btn btn-default">删除</button>
+            <button onClick={deleteEl} >删除</button>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import {AppContext} from '../Context';
 import {Editor} from '@tinymce/tinymce-react';
 
 
-const ChangeElement: React.FC<any> = (props) => {
+const ChangeElement: React.FC= (props) => {
     const {state: globalProps, dispatch} = useContext(AppContext);
     const {_elementContent: elementContent} = globalProps;
 
@@ -53,7 +53,8 @@ const ChangeElement: React.FC<any> = (props) => {
                 <textarea onChange={picChange} value={globalProps.picvalue}
                           defaultValue={globalProps.initialPic.content}/>
                 <br/>
-                <button onClick={savePic} className="btn btn-default">修改图片</button>
+                <button onClick={savePic} >修改图片</button>
+                {/*className="btn btn-default"*/}
             </div>
             <div style={{display: globalProps.isTextEditShow ? "block" : "none"}}>
                 <Editor

@@ -3,7 +3,7 @@ import { AppContext } from '../Context';
 import { v4 as uuidv4 } from 'uuid';
 
 
-const AddElement:React.FC<any> = (props) =>{
+const AddElement:React.FC= (props) =>{
 
     const { state: globalProps, dispatch } = useContext(AppContext);
 

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import reducer from './reducer';
 
 
-type IElement = {
+export type ContentType = {
     id: string,
     type: string,
     content: string,
@@ -11,9 +11,9 @@ type IElement = {
 }
 
  export type IGlobalProps = {
-    _elementContent: IElement[];
-    initialPic: IElement;
-    initialTxt: IElement;
+    _elementContent: ContentType[];
+    initialPic: ContentType;
+    initialTxt: ContentType;
     isPicEditShow: boolean;
     isTextEditShow: boolean;
     isDeleteShow: boolean;
@@ -22,7 +22,7 @@ type IElement = {
     txtvalue: string;
 }
 
-const globalProps={
+ const globalProps={
     _elementContent:[],
     isPicEditShow:false,
     isTextEditShow:false,
@@ -59,5 +59,5 @@ const TopProvider: React.FC = ({ children }) => {
 }
 
 
-export { AppContext, TopProvider };
+export { AppContext, TopProvider ,globalProps};
 

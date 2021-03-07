@@ -1,10 +1,10 @@
 import React,{FormEvent,useContext,useState}  from 'react'
 import { Modal } from 'antd';
-import {AppContext} from "../Context";
+import {AppContext, ContentType} from "../Context";
 
 
 
-const EditPage:React.FC<any> = (props) =>{
+const EditPage:React.FC = (props) =>{
     const { state: globalProps, dispatch } = useContext(AppContext);
     const { _elementContent: elementContent } = globalProps;
     const [isModalShow, setIsModalShow] = useState<boolean>(false);//模态框默认值
@@ -50,7 +50,7 @@ const EditPage:React.FC<any> = (props) =>{
                 onCancel={() => {setIsModalShow(false);}}
             >
                 {
-                    elementContent.map((el:any,i:any)=>{// any要干掉
+                    elementContent.map((el:ContentType,i:number)=>{
                         if(el.type ==="pic")
                             return (<div key={el.id} ><img key={i} src={el.content} alt="loading error" className='img-responsive'/></div>)
                         else if
