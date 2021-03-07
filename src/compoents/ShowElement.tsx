@@ -6,7 +6,7 @@ const ShowElement:React.FC<any> = (props) =>{
     const { state: globalProps, dispatch } = useContext(AppContext);
     const { _elementContent: elementContent } = globalProps;
 
-    //编辑文字
+    //文字编辑
     const editTxt = (e: FormEvent<HTMLParagraphElement>,id:string) => {
         const txtItem = elementContent.find(e => e.id === id)
         const newSate ={

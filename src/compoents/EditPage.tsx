@@ -36,7 +36,7 @@ const EditPage:React.FC<any> = (props) =>{
 
     return(
         <div>
-            <h3>文件操作</h3>
+            <h3>文档操作</h3>
             <div className="btn-group">
                 <button onClick={preview} className="btn btn-default">预览</button>
                 <button onClick={saveAll} className="btn btn-default">保存</button>
