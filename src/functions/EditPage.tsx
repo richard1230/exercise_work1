@@ -18,6 +18,7 @@ const EditPage:React.FC = (props) =>{
     //保存所有元素
     const saveAll = (e:FormEvent<HTMLButtonElement>) => {
         localStorage.setItem('elementContent',JSON.stringify(elementContent));
+
     };
 
     //清空所有元素
@@ -63,4 +64,5 @@ const EditPage:React.FC = (props) =>{
     )
 }
 
+// @ts-ignore
 export default EditPage
