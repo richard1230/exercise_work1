@@ -12,19 +12,19 @@ function App() {
         <TopProvider>
             <div className="App">
                 <div className="wrapper">
+
+                    <div className="left">
+                        <EditPage/>
+                        <AddElement/>
+                    </div>
                     <div className="center">
                         <ShowElement/>
                     </div>
-                </div>
-                <div className="left">
-                    <EditPage/>
-                    <AddElement/>
-                </div>
-
-                <div className="right">
-                    <h3>元素操作</h3>
-                    <DeleteElement/>
-                    <ChangeElement/>
+                    <div className="right">
+                        <h3>元素操作</h3>
+                        <DeleteElement/>
+                        <ChangeElement/>
+                    </div>
                 </div>
 
             </div>
