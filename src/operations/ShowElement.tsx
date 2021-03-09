@@ -1,171 +1,172 @@
-import React, {FormEvent, useContext, MouseEvent, useState} from 'react'
-import {AppContext, ContentType} from '../Context';
+import React, { FormEvent, useContext, MouseEvent, useState } from 'react'
+import { AppContext, ContentType } from '../Context';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const ShowElement:React.FC<any> = (props) =>{
+const ShowElement: React.FC<any> = (props) => {
 
-    const { state: globalProps, dispatch } = useContext(AppContext);
-    const { _elementContent: elementContent } = globalProps;
-    const [items,setitems] = useState<ContentType[]>([]);
+  const { state: globalProps, dispatch } = useContext(AppContext);
+  const { _elementContent: elementContent } = globalProps;
+  const [items, setitems] = useState<ContentType[]>(elementContent || []);
 
-    //重新排序函数
-    const reorder = (list:any, startIndex:number, endIndex:number) => {
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
+  //重新排序函数
+  const reorder = (list: any, startIndex: number, endIndex: number) => {
+    const result: ContentType[]  = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-        return result;
-    };
+    return result;
+  };
 
 
-    const onDragEnd = (result:any) =>{
-        // dropped outside the list
-        if (!result.destination) {
-            return;
-        }
-
-        const newitems = reorder(
-            items,
-            result.source.index,
-            result.destination.index
-        );
-        //
-        setitems(
-            newitems
-        );
+  const onDragEnd = (result: any) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
     }
-    //文字编辑
-    const editTxt = (e: FormEvent<HTMLParagraphElement>,id:string) => {
-        const txtItem = elementContent.find(e => (e.id === id))
-        const newSate ={
-            isDeleteShow:true,
-            isTextEditShow:true,
-            isPicEditShow:false,
-            txtvalue:txtItem?.content,
-            idstate:id,
-        }
-        dispatch({
-            type: 'editTxt',
-            payload: newSate
-        })
-    };
+    console.log(items)
+    const newitems = reorder(
+      items,
+      result.source.index,
+      result.destination.index
+    );
 
-    //编辑图片
-    const editPic = (e: FormEvent<HTMLImageElement>,id:string) => {
-        const picItem = elementContent.find(e => e.id === id)
-        const newSate ={
-            isDeleteShow:true,
-            isPicEditShow:true,
-            isTextEditShow:false,
-            picvalue:picItem?.content,
-            idstate:id,
-        }
-        dispatch({
-            type: 'editPic',
-            payload: newSate
-        })
-    };
+    console.log(newitems)
+    //
+    setitems(
+      newitems
+    );
+  }
+  //文字编辑
+  const editTxt = (e: FormEvent<HTMLParagraphElement>, id: string) => {
+    const txtItem = elementContent.find(e => (e.id === id))
+    const newSate = {
+      isDeleteShow: true,
+      isTextEditShow: true,
+      isPicEditShow: false,
+      txtvalue: txtItem?.content,
+      idstate: id,
+    }
+    dispatch({
+      type: 'editTxt',
+      payload: newSate
+    })
+  };
 
-    //showborder
-    const makeBorderShow = (e:MouseEvent<HTMLDivElement>,id:string) => {
-        const element = elementContent.find(e => e.id === id)
-        if(element)
-            element.isBorderShow = true
-        dispatch({
-            type: 'makeBorderShow',
-            payload: elementContent
-        })
-    };
+  //编辑图片
+  const editPic = (e: FormEvent<HTMLImageElement>, id: string) => {
+    const picItem = elementContent.find(e => e.id === id)
+    const newSate = {
+      isDeleteShow: true,
+      isPicEditShow: true,
+      isTextEditShow: false,
+      picvalue: picItem?.content,
+      idstate: id,
+    }
+    dispatch({
+      type: 'editPic',
+      payload: newSate
+    })
+  };
 
-    //hideborder
-    const hideBorderShow = (e:MouseEvent<HTMLDivElement>,id:string) => {
-        const element = elementContent.find(e => e.id === id)
-        if(element)
-            element.isBorderShow = false
-        dispatch({
-            type: 'hideBorderShow',
-            payload: elementContent
-        })
-    };
+  //showborder
+  const makeBorderShow = (e: MouseEvent<HTMLDivElement>, id: string) => {
+    const element = elementContent.find(e => e.id === id)
+    if (element)
+      element.isBorderShow = true
+    dispatch({
+      type: 'makeBorderShow',
+      payload: elementContent
+    })
+  };
 
-    return(
-        <div className='col-xs-6 text-left' style={{border:'1px solid',display:'block'}}>
-            <h3>简单编辑器</h3>
+  //hideborder
+  const hideBorderShow = (e: MouseEvent<HTMLDivElement>, id: string) => {
+    const element = elementContent.find(e => e.id === id)
+    if (element)
+      element.isBorderShow = false
+    dispatch({
+      type: 'hideBorderShow',
+      payload: elementContent
+    })
+  };
+
+  const getElement = (el: ContentType) => {
+    if (el.type === "pic")
+      return (
+        <div key={el.id}
+          style={{ border: el.isBorderShow ? '1px solid' : '' }}
+          onMouseEnter={(e) => {
+            makeBorderShow(e, el.id)
+          }}
+          onMouseLeave={(e) => {
+            hideBorderShow(e, el.id)
+          }}>
+          <img
+            src={el.content}
+            onClick={(e) => {
+              editPic(e, el.id)
+            }}
+            alt="loading error"
+            className='img-responsive' />
+        </div>)
+    else if (el.type === "txt")
+      return (
+        <div key={el.id}
+          style={{ border: el.isBorderShow ? '1px solid' : '' }}
+          onMouseEnter={(e) => {
+            makeBorderShow(e, el.id)
+          }}
+          onMouseLeave={(e) => {
+            hideBorderShow(e, el.id)
+          }}>
+          <p onClick={(e) => {
+            editTxt(e, el.id)
+          }}>{el.content}</p>
+        </div>)
+  }
+
+  return (
+    <div className='col-xs-6 text-left' style={{ border: '1px solid', display: 'block' }}>
+      <h3>简单编辑器</h3>
+      {
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
             {
-                <DragDropContext  onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable">
-                        {
-                            (provided )=>(
-                                <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                >
-                                    elementContent.map( (el, index) =>
-                                    (
-                                    <Draggable key={el.id} draggableId={el.id} index={index}>
-                                        {
-                                            (provided)=>(
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    {
+              (provided: any) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {
+                    items.map((el, index) => <Draggable key={el.id} draggableId={el.id} index={index}>
+                      {
+                        (provided: any) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            {
+                              getElement(el)
+                            }
+                          </div>
+                        )
+                      }
 
-                                                        if (el.type === "pic")
-                                                        return (
-                                                        <div key={el.id}
-                                                        style={{border: el.isBorderShow ? '1px solid' : ''}}
-                                                        onMouseEnter={(e) => {
-                                                        makeBorderShow(e, el.id)
-                                                    }}
-                                                        onMouseLeave={(e) => {
-                                                        hideBorderShow(e, el.id)
-                                                    }}>
-                                                        <img key={index}
-                                                        src={el.content}
-                                                        onClick={(e) => {
-                                                        editPic(e, el.id)
-                                                    }}
-                                                        alt="loading error"
-                                                        className='img-responsive'/>
-                                                        </div>)
-                                                        else if (el.type === "txt")
-                                                        return (
-                                                        <div key={el.id}
-                                                        style={{border: el.isBorderShow ? '1px solid' : ''}}
-                                                        onMouseEnter={(e) => {
-                                                        makeBorderShow(e, el.id)
-                                                    }}
-                                                        onMouseLeave={(e) => {
-                                                        hideBorderShow(e, el.id)
-                                                    }}>
-                                                        <p onClick={(e) => {
-                                                        editTxt(e, el.id)
-                                                    }}>{el.content}</p>
-                                                        </div>)
-                                                    }
-
-
-                                                </div>
-                                            )
-                                        }
-
-                                    </Draggable>
-
-                                    )
-                                    )
-                                </div>
-                            )
-                        }
-                    </Droppable>
-                </DragDropContext>
-
+                    </Draggable>
+                    )
+                  }
+                </div>
+              )
             }
+          </Droppable>
+        </DragDropContext>
 
-        </div>
+      }
 
-    )
+    </div>
+
+  )
 
 }
 
