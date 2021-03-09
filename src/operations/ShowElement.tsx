@@ -1,12 +1,12 @@
-import React, { FormEvent, useContext, MouseEvent, useState } from 'react'
+import React, { FormEvent, useContext, MouseEvent, useState, useEffect } from 'react'
 import { AppContext, ContentType } from '../Context';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const ShowElement: React.FC<any> = (props) => {
 
   const { state: globalProps, dispatch } = useContext(AppContext);
+
   const { _elementContent: elementContent } = globalProps;
-  const [items, setitems] = useState<ContentType[]>(elementContent || []);
 
   //重新排序函数
   const reorder = (list: any, startIndex: number, endIndex: number) => {
@@ -23,17 +23,19 @@ const ShowElement: React.FC<any> = (props) => {
     if (!result.destination) {
       return;
     }
-    console.log(items)
     const newitems = reorder(
-      items,
+      elementContent,
       result.source.index,
       result.destination.index
     );
 
     console.log(newitems)
     //
-    setitems(
-      newitems
+    dispatch(
+      {
+        type: 'updateElements',
+        payload: newitems
+      }
     );
   }
   //文字编辑
@@ -138,7 +140,7 @@ const ShowElement: React.FC<any> = (props) => {
                   ref={provided.innerRef}
                 >
                   {
-                    items.map((el, index) => <Draggable key={el.id} draggableId={el.id} index={index}>
+                    elementContent.map((el, index) => <Draggable key={el.id} draggableId={el.id} index={index}>
                       {
                         (provided: any) => (
                           <div

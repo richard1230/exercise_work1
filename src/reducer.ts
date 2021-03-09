@@ -6,6 +6,10 @@ import {IGlobalProps} from "./Context";
 const reducer = (state:IGlobalProps, action:any)=>{
     //(文本，图片)添加、编辑、改变(事件响应)，删除
     switch (action.type) {
+        case 'updateElements': {
+          const { payload } = action;
+          return {...state, _elementContent: payload}
+        }
         case 'addPic': {
             const { payload } = action;
             return {...state,_elementContent:[...state._elementContent,...payload]};
