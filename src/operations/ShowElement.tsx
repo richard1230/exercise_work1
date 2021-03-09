@@ -1,4 +1,4 @@
-import React, {FormEvent, useContext, MouseEvent, useState} from 'react'
+import React, {FormEvent, useContext, MouseEvent, useState,useEffect} from 'react'
 import {AppContext, ContentType} from '../Context';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -6,14 +6,12 @@ const ShowElement:React.FC<any> = (props) =>{
 
     const { state: globalProps, dispatch } = useContext(AppContext);
     const { _elementContent: elementContent } = globalProps;
-    const [items,setitems] = useState<ContentType[]>([]);
 
     //重新排序函数
     const reorder = (list:any, startIndex:number, endIndex:number) => {
-        const result = Array.from(list);
+        const result:ContentType[] = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
-
         return result;
     };
 
@@ -25,14 +23,17 @@ const ShowElement:React.FC<any> = (props) =>{
         }
 
         const newitems = reorder(
-            items,
+            elementContent,
             result.source.index,
             result.destination.index
         );
+        dispatch(
+            {
+                type:"updateElements",
+                payload:newitems
+            }
+        )
         //
-        setitems(
-            newitems
-        );
     }
     //文字编辑
     const editTxt = (e: FormEvent<HTMLParagraphElement>,id:string) => {
@@ -88,6 +89,41 @@ const ShowElement:React.FC<any> = (props) =>{
         })
     };
 
+    const getElement = (el:ContentType)=>{
+        if (el.type === "pic")
+            return (
+                <div key={el.id}
+                     style={{ border: el.isBorderShow ? '1px solid' : '' }}
+                     onMouseEnter={(e) => {
+                         makeBorderShow(e, el.id)
+                     }}
+                     onMouseLeave={(e) => {
+                         hideBorderShow(e, el.id)
+                     }}>
+                    <img
+                        src={el.content}
+                        onClick={(e) => {
+                            editPic(e, el.id)
+                        }}
+                        alt="loading error"
+                        className='img-responsive' />
+                </div>)
+        else if (el.type === "txt")
+            return (
+                <div key={el.id}
+                     style={{ border: el.isBorderShow ? '1px solid' : '' }}
+                     onMouseEnter={(e) => {
+                         makeBorderShow(e, el.id)
+                     }}
+                     onMouseLeave={(e) => {
+                         hideBorderShow(e, el.id)
+                     }}>
+                    <p onClick={(e) => {
+                        editTxt(e, el.id)
+                    }}>{el.content}</p>
+                </div>)
+    }
+
     return(
         <div className='col-xs-6 text-left' style={{border:'1px solid',display:'block'}}>
             <h3>简单编辑器</h3>
@@ -100,9 +136,7 @@ const ShowElement:React.FC<any> = (props) =>{
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
-                                    elementContent.map( (el, index) =>
-                                    (
-                                    <Draggable key={el.id} draggableId={el.id} index={index}>
+                                    elementContent.map((el, index) => <Draggable key={el.id} draggableId={el.id} index={index}>
                                         {
                                             (provided:any)=>(
                                                 <div
@@ -111,35 +145,7 @@ const ShowElement:React.FC<any> = (props) =>{
                                                     {...provided.dragHandleProps}
                                                 >
                                                     {
-                                                       return el.type === "pic" ?(
-                                                        <div key={el.id}
-                                                        style={{border: el.isBorderShow ? '1px solid' : ''}}
-                                                        onMouseEnter={(e) => {
-                                                        makeBorderShow(e, el.id)
-                                                    }}
-                                                        onMouseLeave={(e) => {
-                                                        hideBorderShow(e, el.id)
-                                                    }}>
-                                                        <img key={index}
-                                                        src={el.content}
-                                                        onClick={(e) => {
-                                                        editPic(e, el.id)
-                                                    }}
-                                                        alt="loading error"
-                                                        className='img-responsive'/>
-                                                        </div>):(
-                                                        <div key={el.id}
-                                                        style={{border: el.isBorderShow ? '1px solid' : ''}}
-                                                        onMouseEnter={(e) => {
-                                                        makeBorderShow(e, el.id)
-                                                    }}
-                                                        onMouseLeave={(e) => {
-                                                        hideBorderShow(e, el.id)
-                                                    }}>
-                                                        <p onClick={(e) => {
-                                                        editTxt(e, el.id)
-                                                    }}>{el.content}</p>
-                                                        </div>)
+                                                        getElement(el)
                                                     }
                                                 </div>
                                             )
@@ -148,7 +154,7 @@ const ShowElement:React.FC<any> = (props) =>{
                                     </Draggable>
 
                                     )
-                                    )
+                                    }
                                 </div>
                             )
                         }
