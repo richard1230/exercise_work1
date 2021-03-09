@@ -1,5 +1,6 @@
 import React,{ FormEvent, useContext, MouseEvent}  from 'react'
 import { AppContext } from '../Context';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const ShowElement:React.FC<any> = (props) =>{
 
@@ -61,17 +62,19 @@ const ShowElement:React.FC<any> = (props) =>{
     };
 
     return(
+        // <DragDropContext  onDragEnd={}>
         <div className='col-xs-6 text-left' style={{border:'1px solid',display:'block'}}>
             <h3>简单编辑器</h3>
             {
-                elementContent.map((el,i)=>{
+
+                    elementContent.map((el,index)=>{
                     if(el.type ==="pic")
                         return (
                             <div key={el.id}
                                  style={{border:el.isBorderShow?'1px solid':''}}
                                  onMouseEnter={(e)=>{makeBorderShow(e,el.id)}}
                                  onMouseLeave={(e)=>{hideBorderShow(e,el.id)}}>
-                                <img key={i}
+                                <img key={index}
                                      src={el.content}
                                      onClick={(e)=>{editPic(e,el.id)}}
                                      alt="loading error"
@@ -88,7 +91,10 @@ const ShowElement:React.FC<any> = (props) =>{
                 })
             }
         </div>
+       // </DragDropContext>
+
     )
-}
+
+            }
 
 export default ShowElement

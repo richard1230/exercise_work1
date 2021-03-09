@@ -44,14 +44,14 @@ export type ContentType = {
 
 
 const AppContext = createContext<{ state: IGlobalProps; dispatch: React.Dispatch<any>; }>({
-    state: {...globalProps,
-        _elementContent:((JSON.parse( localStorage.getItem('elementContent')|| '[]')||[]) as ContentType[])
-    },
+    state: globalProps,
     dispatch: () => null
 });
 
 const TopProvider: React.FC = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, globalProps);
+    const [state, dispatch] = useReducer(reducer, {...globalProps,
+        _elementContent:((JSON.parse( localStorage.getItem('elementContent')|| '[]')||[]) as ContentType[])
+    });
 
     return (
         <AppContext.Provider value={{state, dispatch}}>
