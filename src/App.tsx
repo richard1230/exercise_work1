@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 import {TopProvider} from "./Context";
-import EditPage from "./functions/EditPage";
-import AddElement from "./functions/AddElement";
-import ShowElement from "./functions/ShowElement";
-import DeleteElement from "./functions/DeleteElement";
-import ChangeElement from "./functions/ChangeElement";
+import EditPage from "./operations/EditPage";
+import AddElement from "./operations/AddElement";
+import ShowElement from "./operations/ShowElement";
+import DeleteElement from "./operations/DeleteElement";
+import ChangeElement from "./operations/ChangeElement";
 
 function App() {
     return (
