@@ -95,7 +95,7 @@ const ShowElement:React.FC<any> = (props) =>{
                 <DragDropContext  onDragEnd={onDragEnd}>
                     <Droppable droppableId="droppable">
                         {
-                            (provided )=>(
+                            (provided:any )=>(
                                 <div
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
@@ -104,16 +104,14 @@ const ShowElement:React.FC<any> = (props) =>{
                                     (
                                     <Draggable key={el.id} draggableId={el.id} index={index}>
                                         {
-                                            (provided)=>(
+                                            (provided:any)=>(
                                                 <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
                                                     {
-
-                                                        if (el.type === "pic")
-                                                        return (
+                                                       return el.type === "pic" ?(
                                                         <div key={el.id}
                                                         style={{border: el.isBorderShow ? '1px solid' : ''}}
                                                         onMouseEnter={(e) => {
@@ -129,9 +127,7 @@ const ShowElement:React.FC<any> = (props) =>{
                                                     }}
                                                         alt="loading error"
                                                         className='img-responsive'/>
-                                                        </div>)
-                                                        else if (el.type === "txt")
-                                                        return (
+                                                        </div>):(
                                                         <div key={el.id}
                                                         style={{border: el.isBorderShow ? '1px solid' : ''}}
                                                         onMouseEnter={(e) => {
@@ -145,8 +141,6 @@ const ShowElement:React.FC<any> = (props) =>{
                                                     }}>{el.content}</p>
                                                         </div>)
                                                     }
-
-
                                                 </div>
                                             )
                                         }
